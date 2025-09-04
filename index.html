@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yashvi • Portfolio — New York City Theme</title>
+  <style>
+    /* ----------------------
+       THEME & RESET
+    ---------------------- */
+    :root{
+      --nyc-midnight:#0b132b;
+      --nyc-dusk:#1c2541;
+      --nyc-steel:#3a506b;
+      --nyc-mist:#5bc0be;
+      --nyc-cab:#ffd60a; /* yellow cab */
+      --nyc-white:#f7f7ff;
+      --nyc-card:#0f1a34; /* darker card */
+      --shadow-lg:0 20px 40px rgba(0,0,0,.35);
+      --shadow-md:0 10px 20px rgba(0,0,0,.25);
+      --radius:20px;
+      --maxw:1100px;
+      --pad:22px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      color:var(--nyc-white);
+      background: linear-gradient(180deg,var(--nyc-midnight), var(--nyc-dusk) 60%, var(--nyc-steel));
+      line-height:1.6;
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* ----------------------
+       TOP NAV
+    ---------------------- */
+    header{
+      position:sticky;top:0;z-index:10;
+      backdrop-filter:saturate(160%) blur(10px);
+      background:linear-gradient(180deg, rgba(11,19,43,.85), rgba(11,19,43,.35));
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto; padding:10px var(--pad);
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .brand{font-weight:800;letter-spacing:.5px}
+    .brand .dot{color:var(--nyc-cab)}
+    .links{display:flex;gap:18px}
+    .links a{padding:8px 12px;border-radius:999px;opacity:.9}
+    .links a:hover{background:rgba(255,255,255,.08);opacity:1}
+
+    /* ----------------------
+       HERO with SVG skyline
+    ---------------------- */
+    .hero{
+      position:relative;
+      padding:80px var(--pad) 160px; /* extra bottom for skyline */
+      isolation:isolate;
+    }
+    .wrap{max-width:var(--maxw);margin:0 auto}
+    .tag{display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:6px 10px;border-radius:999px;font-size:13px;letter-spacing:.4px}
+    h1{font-size:clamp(32px,6vw,56px);margin:14px 0 8px;line-height:1.15}
+    .lead{font-size:clamp(16px,2.4vw,20px);max-width:800px;color:#e8ecff;opacity:.95}
+    .cta-row{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
+    .btn{display:inline-block;padding:12px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);box-shadow:var(--shadow-md)}
+    .btn.primary{background:var(--nyc-cab);color:#222;border:none}
+    .btn:hover{transform:translateY(-1px)}
+
+    /* Animated stars */
+    .stars, .stars:after{
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background:radial-gradient(2px 2px at 20% 30%, #ffffff 60%, transparent 61%),
+                 radial-gradient(1px 1px at 40% 70%, #ffffff 60%, transparent 61%),
+                 radial-gradient(1.5px 1.5px at 70% 20%, #ffffff 60%, transparent 61%),
+                 radial-gradient(1px 1px at 85% 50%, #ffffff 60%, transparent 61%);
+      opacity:.35; animation: twinkle 6s infinite ease-in-out alternate;
+    }
+    .stars:after{animation-delay:3s;opacity:.28}
+    @keyframes twinkle{from{opacity:.18} to{opacity:.48}}
+
+    /* Skyline base */
+    .skyline{
+      position:absolute; left:0; right:0; bottom:0; height:200px; z-index:-1;
+      background:linear-gradient(0deg, rgba(0,0,0,.6), transparent 70%);
+      overflow:visible;
+    }
+    .skyline svg{position:absolute;left:50%;transform:translateX(-50%);bottom:0;height:200px;width:1400px;max-width:none;filter:drop-shadow(0 8px 20px rgba(0,0,0,.6))}
+    /* Building window flicker */
+    .window{animation:flicker 5s infinite steps(2) alternate}
+    @keyframes flicker{from{opacity:.25} to{opacity:1}}
+
+    /* CSS taxi animation */
+    .taxi{position:absolute;bottom:14px;left:-160px;width:120px;height:42px;border-radius:8px;background:var(--nyc-cab);box-shadow:0 6px 0 rgba(0,0,0,.35) inset, var(--shadow-md);
+      animation: drive 18s linear infinite; display:flex;align-items:center;justify-content:center;font-weight:800;color:#111;letter-spacing:2px}
+    .taxi:before{content:"";position:absolute;bottom:-10px;left:8px;width:28px;height:28px;border-radius:50%;background:#111;box-shadow:76px 0 0 #111}
+    .taxi:after{content:"NYC"}
+    @keyframes drive{0%{transform:translateX(0)}100%{transform:translateX(calc(100vw + 200px))}}
+
+    /* ----------------------
+       SECTIONS
+    ---------------------- */
+    section{padding:70px var(--pad)}
+    .section-inner{max-width:var(--maxw);margin:0 auto}
+    .section-title{font-size:clamp(22px,3.5vw,32px);margin:0 0 18px}
+    .muted{opacity:.8}
+
+    /* Cards */
+    .grid{display:grid;gap:18px}
+    .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+    .card{background:var(--nyc-card);border:1px solid rgba(255,255,255,.06);padding:20px;border-radius:var(--radius);box-shadow:var(--shadow-md)}
+    .card h3{margin:6px 0 8px;font-size:18px}
+
+    /* Skills pills */
+    .pills{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .pill{padding:8px 12px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(255,255,255,.06);font-size:14px}
+
+    /* Projects */
+    .project{display:flex;flex-direction:column;gap:10px}
+    .project .meta{font-size:13px;opacity:.8}
+
+    /* Education timeline */
+    .timeline{position:relative;margin-left:10px}
+    .timeline:before{content:"";position:absolute;left:10px;top:0;bottom:0;width:3px;background:linear-gradient(var(--nyc-cab),transparent)}
+    .timeline-item{position:relative;padding-left:34px;margin:18px 0}
+    .timeline-item:before{content:"";position:absolute;left:0;top:6px;width:20px;height:20px;border-radius:50%;background:var(--nyc-cab);box-shadow:0 0 0 6px rgba(255,214,10,.15)}
+
+    /* Contact box */
+    .contact-box{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .contact-item{background:var(--nyc-card);padding:18px;border-radius:var(--radius);border:1px solid rgba(255,255,255,.08)}
+    .contact-item strong{display:block;font-size:12px;opacity:.8;text-transform:uppercase;letter-spacing:.6px}
+    .contact-note{font-size:13px;opacity:.8;margin-top:8px}
+
+    /* Footer */
+    footer{padding:40px var(--pad); border-top:1px solid rgba(255,255,255,.08); background:rgba(0,0,0,.18)}
+    .footer-inner{max-width:var(--maxw);margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+    .subway{display:flex;gap:8px}
+    .dot{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:#1c77ff}
+    .dot.b{background:#ff4136}
+    .dot.c{background:#2ecc40}
+    .dot.d{background:#ffdc00;color:#222}
+
+    /* Responsive tweaks */
+    @media (max-width:740px){
+      .contact-box{grid-template-columns:1fr}
+      .links{gap:8px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="brand">Yashvi<span class="dot">●</span>NYC</div>
+      <div class="links" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#education">Education</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="intro-heading">
+      <div class="stars"></div>
+      <div class="wrap">
+        <span class="tag">B.Com (Hons) • Data Science</span>
+        <h1 id="intro-heading">Hi, I’m Yashvi — an analytical, NYC‑inspired portfolio showcasing my journey in business & data.</h1>
+        <p class="lead">I’m in my 2nd year of a 4‑year B.Com (Hons) program and pursuing data skills side‑by‑side. I enjoy transforming numbers into decisions using <strong>Excel</strong> and <strong>SQL</strong>, and I’m building projects that blend commerce, analytics, and real‑world impact.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn" href="#contact">Get in Touch</a>
+        </div>
+      </div>
+
+      <!-- SVG NYC skyline (inline, no external assets) -->
+      <div class="skyline" aria-hidden="true">
+        <svg viewBox="0 0 1200 200" preserveAspectRatio="xMidYMax slice" role="img" aria-label="New York City skyline silhouette">
+          <defs>
+            <linearGradient id="bldg" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#203053"/>
+              <stop offset="100%" stop-color="#0a1024"/>
+            </linearGradient>
+          </defs>
+          <!-- Buildings -->
+          <g fill="url(#bldg)">
+            <rect x="0" y="80" width="80" height="120"/>
+            <rect x="90" y="60" width="90" height="140"/>
+            <rect x="190" y="100" width="70" height="100"/>
+            <rect x="270" y="40" width="60" height="160"/>
+            <!-- One World Trade spire -->
+            <rect x="350" y="10" width="40" height="190"/>
+            <rect x="368" y="0" width="4" height="40"/>
+            <rect x="395" y="80" width="80" height="120"/>
+            <rect x="490" y="70" width="50" height="130"/>
+            <!-- Empire State Building style tower -->
+            <rect x="550" y="20" width="60" height="180"/>
+            <rect x="578" y="0" width="4" height="28"/>
+            <rect x="620" y="90" width="70" height="110"/>
+            <rect x="700" y="60" width="80" height="140"/>
+            <rect x="790" y="95" width="60" height="105"/>
+            <rect x="860" y="70" width="85" height="130"/>
+            <rect x="955" y="100" width="70" height="100"/>
+            <rect x="1035" y="50" width="60" height="150"/>
+            <rect x="1105" y="80" width="95" height="120"/>
+          </g>
+          <!-- Windows -->
+          <g fill="#ffd60a" opacity=".9">
+            <rect class="window" x="100" y="80" width="6" height="6"/>
+            <rect class="window" x="120" y="120" width="6" height="6"/>
+            <rect class="window" x="305" y="90" width="6" height="6"/>
+            <rect class="window" x="365" y="140" width="6" height="6"/>
+            <rect class="window" x="565" y="70" width="6" height="6"/>
+            <rect class="window" x="735" y="120" width="6" height="6"/>
+            <rect class="window" x="875" y="90" width="6" height="6"/>
+            <rect class="window" x="945" y="130" width="6" height="6"/>
+          </g>
+        </svg>
+        <div class="taxi" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section id="about" aria-labelledby="about-title">
+      <div class="section-inner">
+        <h2 class="section-title" id="about-title">About</h2>
+        <div class="card">
+          <p>I’m Yashvi, a B.Com (Hons) student (2nd year of 4) learning how data drives business outcomes. I work with spreadsheets and databases to clean, analyze, and present insights. This NYC‑themed site mirrors my pace and energy: structured, bold, and always moving forward.</p>
+          <p class="muted">Interests: business analytics, market research, data visualization, and building clean dashboards.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" aria-labelledby="skills-title">
+      <div class="section-inner">
+        <h2 class="section-title" id="skills-title">Skills</h2>
+        <div class="grid cols-3">
+          <div class="card">
+            <h3>Excel</h3>
+            <p class="muted">VLOOKUP/XLOOKUP, INDEX‑MATCH, pivot tables, conditional formatting, data cleaning with Power Query basics.</p>
+            <div class="pills">
+              <span class="pill">Data Cleaning</span>
+              <span class="pill">Pivot Tables</span>
+              <span class="pill">Dashboards</span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>SQL</h3>
+            <p class="muted">SELECTs, JOINs, GROUP BY, window functions (intro), and writing readable queries for analysis.</p>
+            <div class="pills">
+              <span class="pill">Joins</span>
+              <span class="pill">CTEs</span>
+              <span class="pill">Aggregation</span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Business + Data</h3>
+            <p class="muted">Commercial thinking with data: framing questions, measuring KPIs, and storytelling with numbers.</p>
+            <div class="pills">
+              <span class="pill">KPIs</span>
+              <span class="pill">A/B Basics</span>
+              <span class="pill">Visualization</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" aria-labelledby="projects-title">
+      <div class="section-inner">
+        <h2 class="section-title" id="projects-title">Projects</h2>
+        <div class="grid cols-3">
+          <article class="card project">
+            <h3>NYC Taxi Fares — Excel Dashboard</h3>
+            <p class="muted">Explored fare patterns by hour and borough, cleaned outliers, and built a KPI view showing average fare, distance, and tips.</p>
+            <p class="meta">Tools: Excel (Power Query, Pivot Charts)</p>
+          </article>
+          <article class="card project">
+            <h3>Neighborhood Sales — SQL Analysis</h3>
+            <p class="muted">Aggregated retail transactions by neighborhood, used window functions to rank stores, and identified top‑5 growth corridors.</p>
+            <p class="meta">Tools: SQL (CTEs, window functions)</p>
+          </article>
+          <article class="card project">
+            <h3>Subway On‑Time KPI Mockup</h3>
+            <p class="muted">Designed a concept for tracking line on‑time performance with a concise layout and color‑coded alerts.</p>
+            <p class="meta">Tools: Excel, basic charts</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="education" aria-labelledby="edu-title">
+      <div class="section-inner">
+        <h2 class="section-title" id="edu-title">Education</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <h3>B.Com (Hons) — Year 2/4</h3>
+            <p class="muted">Core courses in accounting, finance, economics, statistics, and business communication.</p>
+          </div>
+          <div class="timeline-item">
+            <h3>Data Science Studies</h3>
+            <p class="muted">Foundations of data analysis with Excel and SQL; learning to connect business questions to data models.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-title">
+      <div class="section-inner">
+        <h2 class="section-title" id="contact-title">Contact</h2>
+        <div class="contact-box">
+          <div class="contact-item">
+            <strong>Email</strong>
+            <div>yourname@example.com</div>
+            <div class="contact-note">Replace with your email (kept as plain text per “no external links”).</div>
+          </div>
+          <div class="contact-item">
+            <strong>Location</strong>
+            <div>Open to remote & onsite opportunities</div>
+            <div class="contact-note">Based in India; inspired by New York City’s energy.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div>© <span id="year">2025</span> Yashvi — Built with HTML & CSS only.</div>
+      <div class="subway" aria-label="NYC subway lines for flair; decorative">
+        <div class="dot">A</div>
+        <div class="dot b">1</div>
+        <div class="dot c">7</div>
+        <div class="dot d">Q</div>
+      </div>
+      <a href="#" aria-label="Back to top" class="btn">↑ Top</a>
+    </div>
+  </footer>
+
+  <!-- No JavaScript needed; but we’ll render the year using a tiny noscript fallback approach (static). -->
+</body>
+</html>
